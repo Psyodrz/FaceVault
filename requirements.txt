@@ -4,7 +4,6 @@ opencv-python-headless
 numpy
 sqlalchemy
 python-multipart
-passlib[bcrypt]
-python-jose[cryptography]
+PyJWT
 python-dotenv
 aiofiles
