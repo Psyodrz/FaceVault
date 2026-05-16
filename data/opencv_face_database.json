@@ -1,0 +1,36 @@
+{
+  "praveen": {
+    "added_date": "2025-12-13T11:56:56.070200",
+    "image_count": 10,
+    "image_paths": [
+      "opencv_dataset\\praveen\\praveen_001.jpg",
+      "opencv_dataset\\praveen\\praveen_002.jpg",
+      "opencv_dataset\\praveen\\praveen_003.jpg",
+      "opencv_dataset\\praveen\\praveen_004.jpg",
+      "opencv_dataset\\praveen\\praveen_005.jpg",
+      "opencv_dataset\\praveen\\praveen_006.jpg",
+      "opencv_dataset\\praveen\\praveen_007.jpg",
+      "opencv_dataset\\praveen\\praveen_008.jpg",
+      "opencv_dataset\\praveen\\praveen_009.jpg",
+      "opencv_dataset\\praveen\\praveen_010.jpg",
+      "opencv_dataset\\praveen\\praveen_011.jpg",
+      "opencv_dataset\\praveen\\praveen_012.jpg",
+      "opencv_dataset\\praveen\\praveen_013.jpg",
+      "opencv_dataset\\praveen\\praveen_014.jpg",
+      "opencv_dataset\\praveen\\praveen_015.jpg",
+      "opencv_dataset\\praveen\\praveen_016.jpg",
+      "opencv_dataset\\praveen\\praveen_017.jpg",
+      "opencv_dataset\\praveen\\praveen_018.jpg",
+      "opencv_dataset\\praveen\\praveen_019.jpg",
+      "opencv_dataset\\praveen\\praveen_020.jpg",
+      "opencv_dataset\\praveen\\praveen_021.jpg",
+      "opencv_dataset\\praveen\\praveen_022.jpg",
+      "opencv_dataset\\praveen\\praveen_023.jpg",
+      "opencv_dataset\\praveen\\praveen_024.jpg",
+      "opencv_dataset\\praveen\\praveen_025.jpg"
+    ],
+    "recognition_count": 0,
+    "last_seen": null,
+    "label": 0
+  }
+}

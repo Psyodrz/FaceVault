@@ -1,0 +1,67 @@
+.analytics-page { display: flex; flex-direction: column; gap: 20px; }
+
+.period-selector { display: flex; gap: 6px; }
+
+.pie-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.pie-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.pie-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.top-personnel-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.top-person-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast);
+}
+
+.top-person-item:hover { background: rgba(59,130,246,0.04); }
+
+.top-rank {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  width: 20px;
+  text-align: center;
+}
+
+.top-name { flex: 1; font-size: 0.85rem; font-weight: 500; }
+
+.top-count {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent-blue);
+}
+
+.top-trend {
+  font-size: 0.72rem;
+  font-weight: 600;
+  min-width: 36px;
+  text-align: right;
+}
+
+.top-trend.up { color: var(--success); }
+.top-trend.down { color: var(--danger); }

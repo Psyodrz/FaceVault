@@ -1,0 +1,26 @@
+.attendance-page { display: flex; flex-direction: column; gap: 20px; }
+
+.attendance-date-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.date-input {
+  width: 160px;
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  padding: 8px 12px;
+}
+
+.date-input::-webkit-calendar-picker-indicator {
+  filter: invert(0.7);
+  cursor: pointer;
+}
+
+.table-wrapper { overflow-x: auto; }
+
+@media (max-width: 768px) {
+  .attendance-date-nav { flex-wrap: wrap; }
+}

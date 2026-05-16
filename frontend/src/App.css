@@ -1,0 +1,6 @@
+/* App-level layout overrides */
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+  background: var(--bg-primary);
+}
