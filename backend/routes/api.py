@@ -16,7 +16,7 @@ from fastapi.responses import JSONResponse, StreamingResponse
 import pandas as pd
 from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordRequestForm
-from database.database import get_db
+from database.database import get_db, SessionLocal
 from database.models import Person, AttendanceLog, RecognitionEvent, AnalyticsSnapshot, User, ThreatEvent, AuditLog
 from fastapi import Request
 
@@ -39,7 +39,12 @@ router = APIRouter()
 
 @router.get("/api/health")
 async def health_check():
-    return {"status": "ok", "service": "facevault-api"}
+    try:
+        import websockets  # noqa: F401
+        ws_ready = True
+    except ImportError:
+        ws_ready = False
+    return {"status": "ok", "service": "facevault-api", "websockets": ws_ready}
 
 # ─── AUTHENTICATION ──────────────────────────────────────────
 
@@ -278,21 +283,22 @@ async def ws_detect(websocket: WebSocket):
 # ─── RECOGNITION WEBSOCKET ──────────────────────────────────
 
 @router.websocket("/ws/recognize")
-async def ws_recognize(websocket: WebSocket, db: Session = Depends(get_db)):
+async def ws_recognize(websocket: WebSocket):
     await websocket.accept()
+    db = SessionLocal()
     frame_count = 0
     unknown_streak = 0
     last_threat_time = datetime.min
     checked_in_today = set()  # Track who's already checked in today
 
-    # Load existing check-ins for today
-    today = date.today()
-    existing = db.query(AttendanceLog).filter(AttendanceLog.date == today).all()
-    for log in existing:
-        checked_in_today.add(log.person_name)
-
-    print("[WS] Client connected to /ws/recognize")
     try:
+        # Load existing check-ins for today
+        today = date.today()
+        existing = db.query(AttendanceLog).filter(AttendanceLog.date == today).all()
+        for log in existing:
+            checked_in_today.add(log.person_name)
+
+        print("[WS] Client connected to /ws/recognize")
         while True:
             data = await websocket.receive_bytes()
             frame = _face_engine.decode_frame(data)
@@ -363,23 +369,26 @@ async def ws_recognize(websocket: WebSocket, db: Session = Depends(get_db)):
         print("[WS] Client disconnected")
     except Exception as e:
         print(f"[WS] Error: {e}")
+    finally:
+        db.close()
 
 
 # ─── ATTENDANCE ──────────────────────────────────────────────
 
 @router.websocket("/ws/attendance")
-async def ws_attendance(websocket: WebSocket, db: Session = Depends(get_db)):
+async def ws_attendance(websocket: WebSocket):
     await websocket.accept()
+    db = SessionLocal()
     checked_in_today = set()
     today = date.today()
 
-    # Load existing check-ins for today
-    existing = db.query(AttendanceLog).filter(AttendanceLog.date == today).all()
-    for log in existing:
-        if not log.check_out:
-            checked_in_today.add(log.person_name)
-
     try:
+        # Load existing check-ins for today
+        existing = db.query(AttendanceLog).filter(AttendanceLog.date == today).all()
+        for log in existing:
+            if not log.check_out:
+                checked_in_today.add(log.person_name)
+
         while True:
             data = await websocket.receive_bytes()
             frame = _face_engine.decode_frame(data)
@@ -411,6 +420,11 @@ async def ws_attendance(websocket: WebSocket, db: Session = Depends(get_db)):
             await websocket.send_json({"faces": results, "count": len(results), "events": events, "checked_in": list(checked_in_today)})
     except WebSocketDisconnect:
         pass
+    finally:
+        db.close()
+
+
+# ─── ATTENDANCE (REST) ───────────────────────────────────────
 
 @router.get("/api/attendance")
 def get_attendance(date_str: Optional[str] = None, db: Session = Depends(get_db)):
