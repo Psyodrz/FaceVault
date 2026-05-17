@@ -49,7 +49,7 @@ const Settings = () => {
   if (!user) {
     return (
       <div className="settings guest-showcase">
-        <div className="hero-banner glass-card" style={{ background: 'radial-gradient(circle at bottom right, rgba(168, 85, 247, 0.1), transparent), var(--bg-surface)' }}>
+        <div className="hero-banner glass-card hero-accent-purple">
           <div className="hero-content">
             <div className="badge badge-purple pulse" style={{ marginBottom: '16px' }}>
               <Cpu size={12} /> CORE ARCHITECTURE
@@ -67,9 +67,9 @@ const Settings = () => {
             </div>
           </div>
           <div className="hero-visual">
-            <div className="visual-circle" style={{ borderColor: '#a855f7' }}></div>
-            <div className="visual-scan-line" style={{ background: 'linear-gradient(90deg, transparent, #a855f7, transparent)' }}></div>
-            <Server className="visual-icon" size={120} style={{ color: '#a855f7', filter: 'drop-shadow(0 0 15px rgba(168, 85, 247, 0.4))' }} />
+            <div className="visual-circle" ></div>
+            <div className="visual-scan-line" ></div>
+            <Server className="visual-icon" size={120}  />
           </div>
         </div>
 

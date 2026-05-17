@@ -34,7 +34,7 @@ const LoginPage = () => {
               <img src={logo} alt="FaceVault" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
             </div>
           </div>
-          <h1 style={{ fontSize: '1.8rem', color: 'var(--text-primary)', marginBottom: '8px' }}>FaceVault Sentinel</h1>
+          <h1 className="auth-title" style={{ fontSize: '1.8rem', marginBottom: '8px' }}>FaceVault Sentinel</h1>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', fontWeight: '500' }}>Authorized Personnel Only</p>
         </div>
 

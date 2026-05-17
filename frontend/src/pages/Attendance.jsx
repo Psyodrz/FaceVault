@@ -107,7 +107,7 @@ const Attendance = () => {
   if (!user) {
     return (
       <div className="attendance guest-showcase">
-        <div className="hero-banner glass-card" style={{ background: 'radial-gradient(circle at top left, rgba(34, 197, 94, 0.1), transparent), var(--bg-surface)' }}>
+        <div className="hero-banner glass-card hero-accent-green">
           <div className="hero-content">
             <div className="badge badge-green pulse" style={{ marginBottom: '16px' }}>
               <Zap size={12} /> SMART WORKFORCE
@@ -125,9 +125,9 @@ const Attendance = () => {
             </div>
           </div>
           <div className="hero-visual">
-            <div className="visual-circle" style={{ borderColor: 'var(--success)' }}></div>
-            <div className="visual-scan-line" style={{ background: 'linear-gradient(90deg, transparent, var(--success), transparent)' }}></div>
-            <UserCheck className="visual-icon" size={120} style={{ color: 'var(--success)', filter: 'drop-shadow(0 0 15px rgba(34, 197, 94, 0.4))' }} />
+            <div className="visual-circle"></div>
+            <div className="visual-scan-line"></div>
+            <UserCheck className="visual-icon" size={120} />
           </div>
         </div>
 
