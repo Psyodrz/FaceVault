@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { 
@@ -16,6 +16,21 @@ import logo from '../assets/logo.png';
 
 const Sidebar = () => {
   const { logout, user } = useAuth();
+  const [nodeOnline, setNodeOnline] = useState(false);
+
+  useEffect(() => {
+    const check = async () => {
+      try {
+        const res = await fetch('/api/health');
+        setNodeOnline(res.ok);
+      } catch {
+        setNodeOnline(false);
+      }
+    };
+    check();
+    const interval = setInterval(check, 30000);
+    return () => clearInterval(interval);
+  }, []);
 
   const menuItems = [
     { name: 'Dashboard', icon: <LayoutDashboard size={20} />, path: '/' },
@@ -73,10 +88,10 @@ const Sidebar = () => {
 
       <div className="sidebar-footer">
         <div className="footer-status">
-          <div className="status-indicator online"></div>
+          <div className={`status-indicator ${nodeOnline ? 'online' : ''}`}></div>
           <div className="status-text">
             <span className="node-id">NODE-X01</span>
-            <span className="node-status">Optimal</span>
+            <span className="node-status">{nodeOnline ? 'Optimal' : 'Unreachable'}</span>
           </div>
         </div>
         <button onClick={logout} className="logout-btn">

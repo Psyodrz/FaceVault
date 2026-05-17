@@ -696,7 +696,20 @@ async def compare_faces(
     return result
 
 
-# ─── IMAGE DETECTION ─────────────────────────────────────────
+# ─── IMAGE DETECTION / RECOGNITION (HTTP fallback for Live Monitor) ─
+
+@router.post("/api/recognize/frame")
+async def recognize_frame(request: Request):
+    """Single-frame recognition over HTTP (used when WebSocket to Railway is unavailable)."""
+    data = await request.body()
+    if not data:
+        raise HTTPException(status_code=400, detail="Empty frame")
+    frame = _face_engine.decode_frame(data)
+    if frame is None:
+        return {"faces": [], "count": 0}
+    results = _face_engine.recognize_faces(frame)
+    return {"faces": results, "count": len(results)}
+
 
 @router.post("/api/detect/image")
 async def detect_in_image(image: UploadFile = File(...)):
