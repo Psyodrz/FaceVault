@@ -14,13 +14,15 @@ import {
   ShieldAlert,
   Clock,
   ShieldCheck,
-  LayoutGrid
+  LayoutGrid,
+  Menu,
+  X
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import './Header.css';
 
-const Header = () => {
+const Header = ({ onMenuToggle, navOpen }) => {
   const { user, logout } = useAuth();
   const { theme, setTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
@@ -76,6 +78,15 @@ const Header = () => {
   return (
     <header className={`header ${scrolled ? 'scrolled' : ''}`}>
       <div className="header-left">
+        <button
+          type="button"
+          className="mobile-menu-btn icon-btn"
+          onClick={onMenuToggle}
+          aria-label={navOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={navOpen}
+        >
+          {navOpen ? <X size={20} /> : <Menu size={20} />}
+        </button>
         <div className="breadcrumb">
           <Monitor size={14} className="bread-icon" />
           <span className="bread-root">Sentinel</span>

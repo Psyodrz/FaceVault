@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import Dashboard from './pages/Dashboard';
@@ -37,11 +37,31 @@ const ProtectedRoute = ({ children, requiredRole, requireLogin = true }) => {
 };
 
 const AppLayout = ({ children }) => {
+  const [navOpen, setNavOpen] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    setNavOpen(false);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    document.body.style.overflow = navOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [navOpen]);
+
   return (
-    <div className="app-layout">
-      <Sidebar />
+    <div className={`app-layout${navOpen ? ' nav-open' : ''}`}>
+      <button
+        type="button"
+        className="sidebar-backdrop"
+        aria-label="Close navigation"
+        onClick={() => setNavOpen(false)}
+      />
+      <Sidebar onNavigate={() => setNavOpen(false)} />
       <div className="main-content">
-        <Header />
+        <Header onMenuToggle={() => setNavOpen((open) => !open)} navOpen={navOpen} />
         <div className="page-container">
           {children}
         </div>

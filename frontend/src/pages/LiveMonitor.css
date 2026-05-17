@@ -95,3 +95,15 @@
   .monitor-side { flex-direction: row; flex-wrap: wrap; }
   .monitor-stat { flex: 1; min-width: 150px; }
 }
+
+.live-monitor .page-header {
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+@media (max-width: 640px) {
+  .live-monitor .page-header .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

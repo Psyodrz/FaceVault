@@ -14,7 +14,7 @@ import './Sidebar.css';
 
 import logo from '../assets/logo.png';
 
-const Sidebar = () => {
+const Sidebar = ({ onNavigate }) => {
   const { logout, user } = useAuth();
   const [nodeOnline, setNodeOnline] = useState(false);
 
@@ -44,7 +44,7 @@ const Sidebar = () => {
 
   return (
     <div className="sidebar">
-      <Link to="/" className="sidebar-brand" style={{ textDecoration: 'none', cursor: 'pointer' }}>
+      <Link to="/" className="sidebar-brand" onClick={onNavigate} style={{ textDecoration: 'none', cursor: 'pointer' }}>
         <div className="brand-logo" style={{ background: 'transparent', border: 'none' }}>
           <img src={logo} alt="FaceVault Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
         </div>
@@ -69,6 +69,7 @@ const Sidebar = () => {
             <NavLink 
               key={item.path} 
               to={item.path} 
+              onClick={onNavigate}
               className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
             >
               <div className="link-icon">{item.icon}</div>
@@ -79,7 +80,7 @@ const Sidebar = () => {
 
         <div className="nav-group">
           <div className="nav-label">System</div>
-          <NavLink to="/settings" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
+          <NavLink to="/settings" onClick={onNavigate} className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
             <div className="link-icon"><Settings size={20} /></div>
             <span>Global Settings</span>
           </NavLink>
