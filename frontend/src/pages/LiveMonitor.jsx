@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Monitor, Camera, ShieldAlert, Wifi, WifiOff } from 'lucide-react';
+import { getRecognizeWsUrl } from '../lib/websocket';
 
 const LiveMonitor = () => {
   const { token } = useAuth();
@@ -22,34 +23,41 @@ const LiveMonitor = () => {
   }, [cameraActive]);
 
   useEffect(() => {
-    const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const wsHost = window.location.host;
-    const wsUrl = `${wsProtocol}//${wsHost}/ws/recognize`;
-    
+    const wsUrl = getRecognizeWsUrl();
+    let reconnectTimer;
+    let stopped = false;
+
     const connectWs = () => {
+      if (stopped) return;
+
       const ws = new WebSocket(wsUrl);
-      
+
       ws.onopen = () => {
-        console.log('[WS] Connected to recognition stream');
+        console.log('[WS] Connected:', wsUrl);
         setWsConnected(true);
+        setError(null);
       };
-      
+
       ws.onclose = () => {
         console.log('[WS] Disconnected');
         setWsConnected(false);
+        wsRef.current = null;
+        if (!stopped) {
+          reconnectTimer = setTimeout(connectWs, 3000);
+        }
       };
-      
-      ws.onerror = (err) => {
-        console.error('[WS] Error:', err);
+
+      ws.onerror = () => {
+        setError('Neural stream offline — reconnecting to backend…');
       };
-      
+
       ws.onmessage = (event) => {
         waitingForResponse.current = false;
         try {
           const data = JSON.parse(event.data);
           setFaces(data.faces || []);
         } catch (e) {
-          console.error("WS parse error", e);
+          console.error('WS parse error', e);
         }
       };
 
@@ -59,6 +67,8 @@ const LiveMonitor = () => {
     connectWs();
 
     return () => {
+      stopped = true;
+      clearTimeout(reconnectTimer);
       if (wsRef.current && wsRef.current.readyState <= 1) {
         wsRef.current.close();
       }
