@@ -17,9 +17,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the entire project
 COPY . .
 
-# Expose the Cloud Run default port
+# API-only on Railway (frontend is deployed on Vercel)
+ENV SERVE_FRONTEND=false
+
 EXPOSE 8080
 
-# Run the application
-# Using 0.0.0.0 to allow external access and 8080 as expected by Cloud Run
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
+RUN chmod +x /app/start.sh
+CMD ["/app/start.sh"]

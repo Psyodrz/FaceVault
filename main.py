@@ -73,11 +73,13 @@ app.add_middleware(
 # API routes
 app.include_router(router)
 
-# Serve frontend static files (Vite build output)
+SERVE_FRONTEND = os.getenv("SERVE_FRONTEND", "true").lower() in ("1", "true", "yes")
+
+# Serve frontend static files locally (Vite build output)
 frontend_dist = os.path.join(BASE_DIR, "frontend", "dist")
 frontend_assets = os.path.join(frontend_dist, "assets")
 
-if os.path.exists(frontend_dist):
+if SERVE_FRONTEND and os.path.exists(frontend_dist):
     if os.path.exists(frontend_assets):
         app.mount("/assets", StaticFiles(directory=frontend_assets), name="assets")
 
@@ -95,4 +97,8 @@ if os.path.exists(frontend_dist):
             return FileResponse(file_path)
         # SPA fallback — all routes serve index.html
         return FileResponse(os.path.join(frontend_dist, "index.html"))
+else:
+    @app.get("/")
+    async def api_root():
+        return {"status": "ok", "service": "facevault-api", "docs": "/docs"}
 

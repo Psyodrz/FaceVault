@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { 
   CalendarClock, 
@@ -118,9 +119,9 @@ const Attendance = () => {
               clock-in and clock-out events without manual intervention.
             </p>
             <div className="hero-actions">
-              <a href="/login" className="btn btn-primary">
+              <Link to="/login" className="btn btn-primary">
                 Personnel Login <ArrowRight size={16} />
-              </a>
+              </Link>
             </div>
           </div>
           <div className="hero-visual">

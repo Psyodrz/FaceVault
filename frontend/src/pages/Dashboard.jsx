@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { 
   Activity, 
@@ -100,9 +101,9 @@ const Dashboard = () => {
               built for the next generation of physical security.
             </p>
             <div className="hero-actions">
-              <a href="/login" className="btn btn-primary">
+              <Link to="/login" className="btn btn-primary">
                 Operator Login <ArrowRight size={16} />
-              </a>
+              </Link>
               <button className="btn btn-ghost">View Capabilities</button>
             </div>
           </div>

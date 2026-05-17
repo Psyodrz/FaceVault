@@ -35,6 +35,12 @@ from backend.auth import get_current_user, get_current_active_admin, get_current
 
 router = APIRouter()
 
+# ─── HEALTH (Railway / load balancers) ───────────────────────
+
+@router.get("/api/health")
+async def health_check():
+    return {"status": "ok", "service": "facevault-api"}
+
 # ─── AUTHENTICATION ──────────────────────────────────────────
 
 @router.post("/api/auth/login")

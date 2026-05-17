@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { 
   Bell, 
   Search, 
@@ -94,13 +95,13 @@ const Header = () => {
                 <div className="dropdown-header"><h3>Platform Modules</h3></div>
                 <div className="dropdown-list">
                   {modules.map(m => (
-                    <a key={m.path} href={m.path} className="notif-item" style={{ textDecoration: 'none' }}>
+                    <Link key={m.path} to={m.path} className="notif-item" style={{ textDecoration: 'none' }}>
                       <div className="stat-icon blue" style={{ width: '32px', height: '32px', flexShrink: 0 }}>{m.icon}</div>
                       <div className="notif-body">
                         <p className="notif-title" style={{ color: 'var(--text-primary)' }}>{m.name}</p>
                         <p style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{m.desc}</p>
                       </div>
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -190,7 +191,7 @@ const Header = () => {
                   )}
                 </div>
                 <div className="dropdown-footer">
-                  <a href="/alerts">View Forensic Logs</a>
+                  <Link to="/alerts">View Forensic Logs</Link>
                 </div>
               </div>
             )}
@@ -198,9 +199,9 @@ const Header = () => {
         </div>
 
         {!user ? (
-          <a href="/login" className="btn btn-primary btn-sm">
+          <Link to="/login" className="btn btn-primary btn-sm">
             Personnel Login
-          </a>
+          </Link>
         ) : (
           <div className="user-profile">
             <div className="user-info">

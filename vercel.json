@@ -1,7 +1,24 @@
 {
-  "rewrites": [
-    { "source": "/api/(.*)", "destination": "https://facevault-production-04a2.up.railway.app/api/$1" },
-    { "source": "/ws/(.*)", "destination": "https://facevault-production-04a2.up.railway.app/ws/$1" },
-    { "source": "/(.*)", "destination": "/index.html" }
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "cd frontend && npm ci && npm run build",
+  "outputDirectory": "frontend/dist",
+  "installCommand": "cd frontend && npm ci",
+  "framework": null,
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "https://YOUR-RAILWAY-APP.up.railway.app/api/$1"
+    },
+    {
+      "src": "/ws/(.*)",
+      "dest": "https://YOUR-RAILWAY-APP.up.railway.app/ws/$1"
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
   ]
 }

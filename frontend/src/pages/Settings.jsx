@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { 
   Settings as SettingsIcon, 
@@ -60,9 +61,9 @@ const Settings = () => {
               decentralized architecture ensures maximum privacy and uptime.
             </p>
             <div className="hero-actions">
-              <a href="/login" className="btn btn-primary">
+              <Link to="/login" className="btn btn-primary">
                 Operator Login <ArrowRight size={16} />
-              </a>
+              </Link>
             </div>
           </div>
           <div className="hero-visual">

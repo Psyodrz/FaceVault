@@ -6,6 +6,8 @@
   "deploy": {
     "numReplicas": 1,
     "sleepApplication": false,
+    "healthcheckPath": "/api/health",
+    "healthcheckTimeout": 300,
     "restartPolicyType": "ON_FAILURE",
     "multiRegionConfig": {
       "us-west2": {

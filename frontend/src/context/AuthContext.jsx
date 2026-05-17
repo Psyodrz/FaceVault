@@ -35,13 +35,14 @@ export const AuthProvider = ({ children }) => {
   };
 
   const login = async (username, password) => {
-    const formData = new FormData();
-    formData.append('username', username);
-    formData.append('password', password);
+    const body = new URLSearchParams();
+    body.append('username', username);
+    body.append('password', password);
 
     const res = await fetch('/api/auth/login', {
       method: 'POST',
-      body: formData,
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body,
     });
     
     if (res.ok) {
