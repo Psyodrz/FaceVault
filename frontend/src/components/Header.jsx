@@ -3,15 +3,9 @@ import { Link } from 'react-router-dom';
 import { 
   Bell, 
   Search, 
-  User, 
-  ChevronDown, 
-  LogOut, 
-  Settings as SettingsIcon,
-  Shield,
   Monitor,
   Moon,
   Sun,
-  ShieldAlert,
   Clock,
   ShieldCheck,
   LayoutGrid,
@@ -20,10 +14,11 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
+import PlatformModulesPanel from './PlatformModulesPanel';
 import './Header.css';
 
 const Header = ({ onMenuToggle, navOpen }) => {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   const { theme, setTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -39,7 +34,11 @@ const Header = ({ onMenuToggle, navOpen }) => {
         e.preventDefault();
         setShowSearch(true);
       }
-      if (e.key === 'Escape') setShowSearch(false);
+      if (e.key === 'Escape') {
+        setShowSearch(false);
+        setShowModules(false);
+        setShowNotifications(false);
+      }
     };
     window.addEventListener('keydown', handleKeyDown);
     
@@ -68,13 +67,6 @@ const Header = ({ onMenuToggle, navOpen }) => {
     }
   };
 
-  const modules = [
-    { name: 'Live Monitor', icon: <Monitor size={18} />, path: '/monitor', desc: 'Real-time neural stream' },
-    { name: 'Analytics', icon: <LayoutGrid size={18} />, path: '/analytics', desc: 'Data visualization hub' },
-    { name: 'Personnel', icon: <User size={18} />, path: '/personnel', desc: 'Facial registry' },
-    { name: 'Privacy Shield', icon: <Shield size={18} />, path: '/privacy', desc: 'PII anonymization' },
-  ];
-
   return (
     <header className={`header ${scrolled ? 'scrolled' : ''}`}>
       <div className="header-left">
@@ -97,29 +89,17 @@ const Header = ({ onMenuToggle, navOpen }) => {
 
       <div className="header-actions">
         <div className="action-group glass-action">
-          <div className="dropdown-wrapper">
-            <button className="icon-btn" onClick={() => setShowModules(!showModules)}>
-              <LayoutGrid size={18} />
-            </button>
-            {showModules && (
-              <div className="notification-dropdown glass-card fade-in" style={{ left: 0, right: 'auto', width: '280px' }}>
-                <div className="dropdown-header"><h3>Platform Modules</h3></div>
-                <div className="dropdown-list">
-                  {modules.map(m => (
-                    <Link key={m.path} to={m.path} className="notif-item" style={{ textDecoration: 'none' }}>
-                      <div className="stat-icon blue" style={{ width: '32px', height: '32px', flexShrink: 0 }}>{m.icon}</div>
-                      <div className="notif-body">
-                        <p className="notif-title" style={{ color: 'var(--text-primary)' }}>{m.name}</p>
-                        <p style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{m.desc}</p>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
+          <button
+            type="button"
+            className="icon-btn"
+            onClick={() => setShowModules(true)}
+            aria-label="Platform modules"
+            aria-haspopup="dialog"
+          >
+            <LayoutGrid size={18} />
+          </button>
           
-          <button className="icon-btn" onClick={() => setShowSearch(true)}><Search size={18} /></button>
+          <button type="button" className="icon-btn" onClick={() => setShowSearch(true)}><Search size={18} /></button>
         </div>
 
         {showSearch && (
@@ -156,6 +136,7 @@ const Header = ({ onMenuToggle, navOpen }) => {
 
         <div className="action-group glass-action">
           <button 
+            type="button"
             className="icon-btn" 
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
             title="Toggle Environmental Mode"
@@ -167,6 +148,7 @@ const Header = ({ onMenuToggle, navOpen }) => {
         <div className="action-group">
           <div className="notification-wrapper">
             <button 
+              type="button"
               className={`icon-btn ${threats.length > 0 ? 'has-alerts' : ''}`}
               onClick={() => setShowNotifications(!showNotifications)}
             >
@@ -225,6 +207,8 @@ const Header = ({ onMenuToggle, navOpen }) => {
           </div>
         )}
       </div>
+
+      <PlatformModulesPanel open={showModules} onClose={() => setShowModules(false)} />
     </header>
   );
 };

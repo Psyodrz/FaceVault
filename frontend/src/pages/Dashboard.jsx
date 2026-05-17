@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import PlatformModulesPanel from '../components/PlatformModulesPanel';
 import { 
   Activity, 
   Users, 
@@ -10,15 +11,13 @@ import {
   Server, 
   RefreshCw, 
   Zap, 
-  Lock, 
   Eye, 
-  Globe, 
-  Database,
   ArrowRight
 } from 'lucide-react';
 
 const Dashboard = () => {
   const { token, user } = useAuth();
+  const [showModulesPanel, setShowModulesPanel] = useState(false);
   const [stats, setStats] = useState({
     total_people: 0,
     total_recognitions: 0,
@@ -104,7 +103,13 @@ const Dashboard = () => {
               <Link to="/login" className="btn btn-primary">
                 Operator Login <ArrowRight size={16} />
               </Link>
-              <button className="btn btn-ghost">View Capabilities</button>
+              <button
+                type="button"
+                className="btn btn-ghost"
+                onClick={() => setShowModulesPanel(true)}
+              >
+                View Capabilities
+              </button>
             </div>
           </div>
           <div className="hero-visual">
@@ -114,7 +119,12 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="grid-3" style={{ marginTop: '24px' }}>
+        <PlatformModulesPanel
+          open={showModulesPanel}
+          onClose={() => setShowModulesPanel(false)}
+        />
+
+        <div id="capabilities" className="grid-3" style={{ marginTop: '24px' }}>
           <div className="glass-card feature-card">
             <div className="feature-icon blue"><Eye size={24} /></div>
             <h3>Neural Recognition</h3>

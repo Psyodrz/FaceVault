@@ -417,6 +417,79 @@ h1 {
   width: 100%;
 }
 
+#platform-modules {
+  scroll-margin-top: 96px;
+}
+
+.platform-modules-section {
+  padding: 24px;
+}
+
+.platform-modules-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: var(--text-primary);
+}
+
+.platform-modules-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.platform-module-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+  text-decoration: none;
+  border-bottom: 1px solid var(--border-default);
+  transition: background 0.2s;
+}
+
+.platform-module-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.platform-module-row:first-child {
+  padding-top: 0;
+}
+
+.platform-module-row:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.platform-module-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.platform-module-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.platform-module-desc {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.platform-module-arrow {
+  flex-shrink: 0;
+  color: var(--text-muted);
+  opacity: 0.6;
+}
+
+.platform-module-row:hover .platform-module-arrow {
+  color: var(--accent-blue);
+  opacity: 1;
+}
+
 .feature-card h3 {
   color: var(--text-primary);
   font-weight: 600;
@@ -756,6 +829,8 @@ h1 {
   flex-wrap: wrap;
   gap: 12px;
   margin-top: 20px;
+  position: relative;
+  z-index: 2;
 }
 
 .feature-card p {

@@ -7,6 +7,7 @@
   position: sticky;
   top: 0;
   z-index: 90;
+  overflow: visible;
   transition: all 0.3s;
   background: linear-gradient(to bottom, var(--bg-deep), transparent);
 }
@@ -38,6 +39,7 @@
   display: flex;
   align-items: center;
   gap: 24px;
+  overflow: visible;
 }
 
 .action-group {
@@ -230,7 +232,10 @@
   box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
 }
 
-.dropdown-wrapper { position: relative; }
+.dropdown-wrapper,
+.notification-wrapper {
+  position: relative;
+}
 
 .search-overlay {
   position: fixed;
