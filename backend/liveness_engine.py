@@ -42,11 +42,14 @@ class LivenessEngine:
                 "models",
                 "lbfmodel.yaml"
             )
-            self.face_cascade = cv2.CascadeClassifier(
-                cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'
-            )
+            if hasattr(cv2, 'CascadeClassifier') and hasattr(cv2, 'data') and hasattr(cv2.data, 'haarcascades'):
+                self.face_cascade = cv2.CascadeClassifier(
+                    cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'
+                )
+            else:
+                raise AttributeError("CascadeClassifier or haarcascades not available")
             
-            if os.path.exists(lbf_model_path):
+            if os.path.exists(lbf_model_path) and hasattr(cv2, 'face'):
                 self.landmark_predictor = cv2.face.createFacemarkLBF()
                 self.landmark_predictor.loadModel(lbf_model_path)
                 self.use_opencv_lbf = True
@@ -62,13 +65,17 @@ class LivenessEngine:
             print(f"[Liveness] OpenCV landmark init failed: {e}")
             # Strategy 3: Minimal mode - just use cascade for face presence
             try:
-                self.face_cascade = cv2.CascadeClassifier(
-                    cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'
-                )
-                self.available = True
-                print("[Liveness] Engine initialized (minimal mode - face presence only)")
+                if hasattr(cv2, 'CascadeClassifier') and hasattr(cv2, 'data') and hasattr(cv2.data, 'haarcascades'):
+                    self.face_cascade = cv2.CascadeClassifier(
+                        cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'
+                    )
+                    self.available = True
+                    print("[Liveness] Engine initialized (minimal mode - face presence only)")
+                else:
+                    print("[Liveness] CascadeClassifier not available, liveness disabled")
             except Exception as e2:
                 print(f"[Liveness] All init methods failed: {e2}")
+
 
         # Challenge state
         self.active_sessions: Dict[str, dict] = {}

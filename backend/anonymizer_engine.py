@@ -11,15 +11,21 @@ class AnonymizerEngine:
     """Face anonymization engine for privacy protection."""
 
     def __init__(self):
-        self.face_cascade = cv2.CascadeClassifier(
-            cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'
-        )
+        self.face_cascade = None
+        try:
+            if hasattr(cv2, 'CascadeClassifier') and hasattr(cv2, 'data') and hasattr(cv2.data, 'haarcascades'):
+                cascade_path = cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'
+                self.face_cascade = cv2.CascadeClassifier(cascade_path)
+        except Exception as e:
+            print(f"[Anonymizer] CascadeClassifier init notice: {e}")
         print("[Anonymizer] Engine initialized")
 
     def anonymize_image(self, image, mode="blur", blur_strength=51, color=(0,0,0)):
         result = image.copy()
-        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        faces = self.face_cascade.detectMultiScale(gray, 1.1, 5, minSize=(30, 30))
+        faces = []
+        if self.face_cascade is not None and not self.face_cascade.empty():
+            gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+            faces = self.face_cascade.detectMultiScale(gray, 1.1, 5, minSize=(30, 30))
         if blur_strength % 2 == 0:
             blur_strength += 1
 
