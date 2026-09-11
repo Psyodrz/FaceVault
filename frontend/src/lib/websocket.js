@@ -1,4 +1,4 @@
-const DEFAULT_WS_BASE = 'https://facevault-production-04a2.up.railway.app';
+const DEFAULT_WS_BASE = 'https://facevault-v8c6.onrender.com';
 
 /** Production API host (Railway). Override with VITE_WS_BASE_URL in Vercel if the domain changes. */
 export function getWsBaseUrl() {
