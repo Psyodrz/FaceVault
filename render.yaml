@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: facevault-backend
+    env: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/health
+    envVars:
+      - key: SERVE_FRONTEND
+        value: "false"
+      - key: JWT_SECRET_KEY
+        generateValue: true

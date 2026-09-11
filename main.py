@@ -5,7 +5,7 @@ Run with: uvicorn main:app --reload --host 0.0.0.0 --port 8000
 
 import os
 from contextlib import asynccontextmanager
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -90,8 +90,8 @@ if SERVE_FRONTEND and os.path.exists(frontend_dist):
     @app.get("/{path:path}")
     async def serve_frontend(path: str):
         # Don't intercept API or WebSocket routes
-        if path.startswith("api/") or path.startswith("ws/"):
-            return
+        if path == "api" or path.startswith("api/") or path == "ws" or path.startswith("ws/"):
+            raise HTTPException(status_code=404, detail="Not Found")
         file_path = os.path.join(frontend_dist, path)
         if os.path.exists(file_path) and os.path.isfile(file_path):
             return FileResponse(file_path)
@@ -101,4 +101,9 @@ else:
     @app.get("/")
     async def api_root():
         return {"status": "ok", "service": "facevault-api", "docs": "/docs"}
+
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
 
